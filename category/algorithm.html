@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Hello Sunshine - algorithm</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Hello Sunshine </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/algorithm.html">algorithm</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/create-blog.html">算法总结</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-05-09T21:25:00+08:00">
+                Published: 一 09 五月 2016
+        </abbr>
+		<br />
+        <abbr class="modified" title="2016-05-09T21:25:00+08:00">
+                Updated: 一 09 五月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/pengyang-wang.html">Pengyang Wang</a>
+        </address>
+<p>In <a href="/category/algorithm.html">algorithm</a>.</p>
+<p>tags: <a href="/tag/ltcode.html">l**tcode</a> </p>
+</footer><!-- /.post-info --><h1>算法总结</h1>
+<p>标签（空格分隔）：algorithm</p>
+<hr />
+<h2>一. Binary Search</h2>
+<blockquote>
+<ul>
+<li>二分搜索的复杂度是log级别，因此看到follow up复杂度为log时首先考虑二分。</li>
+<li>二分搜索使用的前提是有序数组，这里的有序可以使题目直接给定，rotated array，有时还需要自己去构造，例如求最优解。</li>
+</ul>
+</blockquote>
+<h3>二分搜索的常用模板</h3>
+<blockquote>
+<p>binary search 问题转化成：
+寻找第⼀个、最后⼀个、任意一个， 该target元素出现的位置的问题</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1"># @param {int[]} A an integer array sorted in ascending order</span>
+    <span class="c1"># @param {int} target an integer</span>
+    <span class="c1"># @return {int} an integer</span>
+    <span class="k">def</span> <span class="nf">findPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># Write your code here</span>
+        <span class="c1">#首先判断数组是否为空</span>
+        <span class="k">if</span> <span class="n">A</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1">#起始标记和末尾标记</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1">#start + 1 &lt; end 表示，当指针知道连个元素相邻的时候停止，</span>
+        <span class="c1">#这样的话在最终分情况讨论的时候， 只⽤考虑 1〜2 个元素。</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1">#取中点缩小规模</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>            <span class="c1">#比较中点的值与目标值的大小</span>
+                <span class="k">return</span> <span class="n">mid</span>                  
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>           
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>              <span class="c1">#最终只剩两个元素，对这两个元素进行讨论</span>
+            <span class="k">return</span> <span class="n">start</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">end</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+
+<p><strong>需要注意的一点</strong></p>
+<blockquote>
+<p>当比较中点值与目标值大小时，根据任务不同，到底是求target出现的first、last、any位置，进行不同操作</p>
+</blockquote>
+<div class="highlight"><pre><span></span> <span class="c1">#求first</span>
+ <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span> 
+     <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+
+ <span class="c1">#last</span>
+ <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span> 
+     <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+
+ <span class="c1">#any,直接返回</span>
+ <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span> 
+     <span class="k">return</span> <span class="n">mid</span>
+</pre></div>
+
+
+<h3>典型例题</h3>
+<h4>1.给定target直接找位置</h4>
+<h6><a href="http://www.lintcode.com/problem/first-position-of-target">First Position of Target</a>  <code>[Easy]</code></h6>
+<blockquote>
+<p>For a given sorted array (ascending order) and a target number, find the first index of this number in O(log n) time complexity.</p>
+<p>If the target number does not exist in the array, return -1.
+<strong>Example</strong>
+If the array is [1, 2, 3, 3, 4, 5, 10], for given target 3, return 2.</p>
+<p><strong>Challenge</strong>
+If the count of numbers is bigger than 2^32, can your code work properly?</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1"># @param nums: The integer array</span>
+    <span class="c1"># @param target: Target number to find</span>
+    <span class="c1"># @return the first position of target in nums, position start from 0 </span>
+    <span class="k">def</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># write your code here</span>
+        <span class="k">if</span> <span class="n">nums</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+
+        <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">start</span>
+        <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">end</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+
+<h6><a href="http://www.lintcode.com/en/problem/last-position-of-target/">Last Position of Target</a>     <code>[Easy]</code></h6>
+<blockquote>
+<p>Find the last position of a target number in a sorted array. Return -1 if target does not exist.
+<strong>Example</strong>
+Given [1, 2, 2, 4, 5, 5].
+For target = 2, return 2.
+For target = 5, return 5.
+For target = 6, return -1.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1"># @param {int[]} A an integer array sorted in ascending order</span>
+    <span class="c1"># @param {int} target an integer</span>
+    <span class="c1"># @return {int} an integer</span>
+    <span class="k">def</span> <span class="nf">lastPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># Write your code here</span>
+        <span class="k">if</span> <span class="n">A</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">end</span>
+        <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">start</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+
+<h6><a href="http://www.lintcode.com/problem/classical-binary-search">Classical Binary Search</a>   <code>[Easy]</code></h6>
+<blockquote>
+<p>Find any position of a target number in a sorted array. Return -1 if target does not exist.
+<strong>Example</strong>
+Given [1, 2, 2, 4, 5, 5].
+For target = 2, return 1 or 2.
+For target = 5, return 4 or 5.
+For target = 6, return -1.
+<strong>Challenge</strong>
+O(logn) time</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1"># @param {int[]} A an integer array sorted in ascending order</span>
+    <span class="c1"># @param {int} target an integer</span>
+    <span class="c1"># @return {int} an integer</span>
+    <span class="k">def</span> <span class="nf">findPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># Write your code here</span>
+        <span class="k">if</span> <span class="n">A</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">start</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">end</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+
+<h6><a href="http://www.lintcode.com/problem/first-bad-version">First Bad Version</a>     <code>[Medium]</code></h6>
+<blockquote>
+<p>The code base version is an integer start from 1 to n. One day, someone committed a bad version in the code case, so it caused this version and the following versions are all failed in the unit tests. Find the first bad version.
+You can call isBadVersion to help you determine which version is the first bad one. The details interface can be found in the code's annotation part.
+<strong> Notice</strong>
+Please read the annotation in code area to get the correct way to call isBadVersion in different language. For example, Java is SVNRepo.isBadVersion(v)
+<strong>Example</strong>
+Given n = 5:
+isBadVersion(3) -&gt; false
+isBadVersion(5) -&gt; true
+isBadVersion(4) -&gt; true
+Here we are 100% sure that the 4th version is the first bad version.
+<strong>Challenge</strong>
+You should call isBadVersion as few as possible.</p>
+</blockquote>
+<p><strong>tips</strong></p>
+<blockquote>
+<p>find first position 
+target 判断该位置是否为bad version</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="c1">#class SVNRepo:</span>
+<span class="c1">#    @classmethod</span>
+<span class="c1">#    def isBadVersion(cls, id)</span>
+<span class="c1">#        # Run unit tests to check whether verison `id` is a bad version</span>
+<span class="c1">#        # return true if unit tests passed else false.</span>
+<span class="c1"># You can use SVNRepo.isBadVersion(10) to check whether version 10 is a </span>
+<span class="c1"># bad version.</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    @param n: An integers.</span>
+<span class="sd">    @return: An integer which is the first bad version.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">findFirstBadVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c1"># write your code here</span>
+        <span class="n">isBad</span> <span class="o">=</span> <span class="n">SVNRepo</span><span class="p">()</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">isBad</span><span class="o">.</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">):</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+
+        <span class="k">if</span> <span class="n">isBad</span><span class="o">.</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">start</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">start</span>
+        <span class="k">if</span> <span class="n">isBad</span><span class="o">.</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">end</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">end</span>
+</pre></div>
+
+
+<h4>2.在同一问题中既需要找first position 和last position</h4>
+<h6><a href="http://www.lintcode.com/en/problem/search-for-a-range/">Search for a Range</a>    <code>[Medium]</code></h6>
+<blockquote>
+<p>Given a sorted array of n integers, find the starting and ending position of a given target value.
+If the target is not found in the array, return [-1, -1].
+<strong>Example</strong>
+Given [5, 7, 7, 8, 8, 10] and target value 8,
+return [3, 4].
+<strong>Challenge</strong>
+O(log n) time.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    @param A : a list of integers</span>
+<span class="sd">    @param target : an integer to be searched</span>
+<span class="sd">    @return : a list of length 2, [index1, index2]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">searchRange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># write your code here</span>
+        <span class="c1">#find first position</span>
+        <span class="k">if</span> <span class="n">A</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>    
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">position</span>
+         <span class="c1">#find last position   </span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span>
+
+        <span class="k">return</span> <span class="n">position</span>
+</pre></div>
+
+
+<h6><a href="http://www.lintcode.com/problem/total-occurrence-of-target"> Total Occurrence of Target</a>   <code>[Easy]</code></h6>
+<blockquote>
+<p>Given a target number and an integer array sorted in ascending order. Find the total number of occurrences of target in the array.
+<strong>Example</strong>
+Given [1, 3, 3, 4, 5] and target = 3, return 2.
+Given [2, 2, 3, 4, 6] and target = 4, return 1.
+Given [1, 2, 3, 4, 5] and target = 6, return 0.
+<strong>Challenge</strong>
+Time complexity in O(logn)</p>
+</blockquote>
+<p><strong>tips</strong></p>
+<blockquote>
+<ul>
+<li>最朴素的方式是从左向右遍历，当遇到目标值开始计数，一直到不等于目标值结束。</li>
+<li>用二分的思想来做的话，由于是有序数组，那么所有相等的值是放在一起的，那么可以分别查找first、last position，数组下标相减加一便是目标值出现的次数</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1"># @param {int[]} A an integer array sorted in ascending order</span>
+    <span class="c1"># @param {int} target an integer</span>
+    <span class="c1"># @return {int} an integer</span>
+    <span class="k">def</span> <span class="nf">totalOccurrence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># Write your code here</span>
+        <span class="k">if</span> <span class="n">A</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="c1">#find first position</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c1">#find last position</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">elif</span> <span class="n">A</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">start</span>
+
+        <span class="c1">#下标相减加一得到出现次数   </span>
+        <span class="k">return</span> <span class="n">last</span> <span class="o">-</span> <span class="n">first</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+
+
+<h4>3.矩阵搜索</h4>
+<blockquote>
+<p>关于矩阵，可以用二维数组来表示，一个m<em>n的矩阵matrix，取[x, y]位置的值，matrix[x][y]; 同时矩阵也可以看做是一个长度为m</em>n的一维数组，某一元素在一位数组的中的位置为z，那么在一位数组和二维数组中该元素下角标的对应关系为：
+$$ x = z / n $$   $$ y = z\%n $$</p>
+</blockquote>
+<h6><a href="http://www.lintcode.com/problem/search-a-2d-matrix">Search a 2D Matrix</a>  <code>[Easy]</code></h6>
+<blockquote>
+<p>Write an efficient algorithm that searches for a value in an m x n matrix.
+This matrix has the following properties:
+<em> Integers in each row are sorted from left to right.
+</em> The first integer of each row is greater than the last integer of the previous row.
+<strong>Example</strong>
+Consider the following matrix:
+[
+    [1, 3, 5, 7],
+    [10, 11, 16, 20],
+    [23, 30, 34, 50]
+]
+Given target = 3, return true.
+<strong>Challenge</strong>
+O(log(n) + log(m)) time</p>
+</blockquote>
+<p><strong>tips</strong></p>
+<blockquote>
+<ul>
+<li>题目所给矩阵的特点是，每一行的第一个都比上一行的最后一个，因而将该矩阵每一行都排列起来，那么得到的一维数组仍然是有序数组，利用这个特点，可以对整个一位数组只进行一次二分</li>
+<li>另外一种思路就是先对第一列进行二分，判断target属于哪一行，然后对这一行在二分，确定在哪一列，对两个维度进行二分。</li>
+<li>find any position</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    @param matrix, a list of lists of integers</span>
+<span class="sd">    @param target, an integer</span>
+<span class="sd">    @return a boolean, indicate whether matrix contains target</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">searchMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># 两次二分</span>
+        <span class="c1"># if matrix is None:</span>
+        <span class="c1">#     return False</span>
+        <span class="c1"># if len(matrix) == 0 or len(matrix[0]) == 0:</span>
+        <span class="c1">#     return False</span>
+
+        <span class="c1"># start = 0</span>
+        <span class="c1"># end = len(matrix) - 1</span>
+        <span class="c1"># row = 0</span>
+
+        <span class="c1"># while start + 1 &lt; end:</span>
+        <span class="c1">#     mid = start + (end - start) / 2</span>
+        <span class="c1">#     if matrix[mid][0] &lt; target:</span>
+        <span class="c1">#         start = mid</span>
+        <span class="c1">#     elif matrix[mid][0] &gt; target:</span>
+        <span class="c1">#         end = mid</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         return True</span>
+
+        <span class="c1"># if matrix[start][0] == target or matrix[end][0] == target:</span>
+        <span class="c1">#     return True</span>
+        <span class="c1"># elif matrix[end][0] &lt; target:</span>
+        <span class="c1">#     row = end</span>
+        <span class="c1"># elif matrix[start][0] &lt; target:</span>
+        <span class="c1">#     row = start</span>
+
+        <span class="c1"># start = 0</span>
+        <span class="c1"># end = len(matrix[0]) - 1</span>
+        <span class="c1"># while start + 1 &lt; end:</span>
+        <span class="c1">#     mid = start + (end - start) / 2</span>
+        <span class="c1">#     if matrix[row][mid] == target:</span>
+        <span class="c1">#         return True</span>
+        <span class="c1">#     elif matrix[row][mid] &lt; target:</span>
+        <span class="c1">#         start = mid</span>
+        <span class="c1">#     elif matrix[row][mid] &gt; target:</span>
+        <span class="c1">#         end = mid</span>
+        <span class="c1"># if matrix[row][start] == target or matrix[row][end] == target:</span>
+        <span class="c1">#     return True</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#   return False</span>
+
+        <span class="c1">#单次遍历，将矩阵看成一维数组</span>
+        <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">row</span> <span class="o">*</span> <span class="n">col</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">/</span> <span class="n">col</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">%</span> <span class="n">col</span>
+            <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">elif</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">start</span> <span class="o">/</span> <span class="n">col</span><span class="p">,</span> <span class="n">start</span> <span class="o">%</span> <span class="n">col</span>
+        <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">end</span> <span class="o">/</span> <span class="n">col</span><span class="p">,</span> <span class="n">end</span> <span class="o">%</span> <span class="n">col</span>
+        <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+
+
+<h6><a href="http://www.lintcode.com/problem/search-a-2d-matrix-ii">Search a 2D Matrix II</a>    <code>[Medium]</code></h6>
+<blockquote>
+<p>Write an efficient algorithm that searches for a value in an m x n matrix, return the occurrence of it.
+This matrix has the following properties:
+<em> Integers in each row are sorted from left to right.
+</em> Integers in each column are sorted from up to bottom.
+* No duplicate integers in each row or column.
+<strong>Example</strong>
+Consider the following matrix:
+[
+  [1, 3, 5, 7],
+  [2, 4, 7, 8],
+  [3, 5, 9, 10]
+]
+Given target = 3, return 2.
+<strong>Challenge</strong>
+O(m+n) time and O(1) extra space</p>
+</blockquote>
+<p><strong>tips</strong></p>
+<blockquote>
+<ul>
+<li>与上一题相比，不同之处在于，只保证每一行是有序的，但是每一行头对尾变为一位数组后不是有序的，类似于ratated array。并且题目要求求出现次数，所以不能使用一次二分就能解决。除非是分别对每一行进行二分然后再累加起来，那么此时的复杂度是O(mlogn)。</li>
+<li>对于矩阵类的题目，走方格等等之类的题目，从一个角走到对角要走m+n步。对于本题，如果从左上角走到右下角，只能向下或向右走(不能往回走)，下面的和右面的都比自己大，此时就无法辨别到底怎么走。若从右上向左下走，下面的比自己大，右边的永远比自己小，那么就可以根据比较自己与目标元素的大小，来决定是向下走还是向右走。若target比当前元素小，那么应该向右走；若target比当前元素大，那么应该向下走；若target与当前元素相等，因为左小和下大，唯一的可能只能沿着对角线向左下走一步的因最多为要走m+n步，所以复杂度是O(m+n)。</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    @param matrix: An list of lists of integers</span>
+<span class="sd">    @param target: An integer you want to search in matrix</span>
+<span class="sd">    @return: An integer indicates the total occurrence of target in the given matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">searchMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># write your code here</span>
+        <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1">#循环条件，x，y不能越界</span>
+        <span class="k">while</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">x</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="n">y</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">matrix</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">y</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">num</span>
+</pre></div>
+
+
+<h4>4.rotated sorted array</h4>
+<blockquote>
+<ul>
+<li>翻转数组的特点是前半部分有序，后半部分有序，前半部分的最小值大于等于后半部分的最大值</li>
+<li>可能的情况有，翻转数组中有无重复元素</li>
+</ul>
+</blockquote>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
