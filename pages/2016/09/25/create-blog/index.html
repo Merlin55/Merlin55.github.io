@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Recommender Systems for Online Recruiting System - Pengyang Wang's Homepage</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/pages/2016/09/25/create-blog/">
+
+        <meta name="author" content="Pengyang Wang" />
+        <meta name="keywords" content="Data Mining,Recommder Systems" />
+        <meta name="description" content="[TOC] 1. Overview 2. T-GBRT Model 2.1 Introduction As an efficient way to deal with the information overloading problem1, the recommender systems have been widely applied into many web applications. The application of recommender systems varies in different scenarios and jobs2. We need to consider whether the ..." />
+
+        <meta property="og:site_name" content="Pengyang Wang's Homepage" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Recommender Systems for Online Recruiting System"/>
+        <meta property="og:url" content="/pages/2016/09/25/create-blog/"/>
+        <meta property="og:description" content="[TOC] 1. Overview 2. T-GBRT Model 2.1 Introduction As an efficient way to deal with the information overloading problem1, the recommender systems have been widely applied into many web applications. The application of recommender systems varies in different scenarios and jobs2. We need to consider whether the ..."/>
+        <meta property="article:published_time" content="2016-09-25" />
+            <meta property="article:section" content="Projects" />
+            <meta property="article:tag" content="Data Mining" />
+            <meta property="article:tag" content="Recommder Systems" />
+            <meta property="article:author" content="Pengyang Wang" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Pengyang Wang's Homepage            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/algorithm.html">Algorithm</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/projects.html">Projects</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/pages/2016/09/25/create-blog/"
+                       rel="bookmark"
+                       title="Permalink to Recommender Systems for Online Recruiting System">
+                        Recommender Systems for Online Recruiting System
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-09-25T21:25:00+08:00"> 日 25 九月 2016</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/data-mining.html">Data Mining</a>
+        /
+	<a href="/tag/recommder-systems.html">Recommder Systems</a>
+    <span class="label label-default">Lang</span>
+	<a href="/pages/2016/05/09/create-blog/">en</a>
+	<a href="/pages/2014/04/12/create-blog/">en</a>
+	<a href="/pages/2016/02/05/create-blog/">en</a>
+
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>[TOC]</p>
+<hr />
+<h3>1. Overview</h3>
+<p><br/>
+<br/>
+<br/></p>
+<h3>2. T-GBRT Model</h3>
+<h4>2.1 Introduction</h4>
+<p>As an efficient way to deal with the information overloading problem<sup id="fnref:ref1"><a class="footnote-ref" href="#fn:ref1" rel="footnote">1</a></sup>, the recommender systems have been widely applied into many web applications. The application of recommender systems varies in different scenarios and jobs<sup id="fnref:ref2"><a class="footnote-ref" href="#fn:ref2" rel="footnote">2</a></sup>.  We need to consider whether the ability of job hunters is compatible with the corresponding job at first<sup id="fnref:ref3"><a class="footnote-ref" href="#fn:ref3" rel="footnote">3</a></sup>. After that we focus on the job hunters’ preference. The preference maybe the personalized requirement for working places and environment. So we need to consider both the users’ preference and their ability when designing the recommender systems for online recruitment.
+<br/>
+<br/></p>
+<h4>2.2 Review</h4>
+<p>For the designing of recommender systems for online recruitment, there are two main models having been proposed.
+Collaborative Filtering (CF)<sup id="fnref:ref4"><a class="footnote-ref" href="#fn:ref4" rel="footnote">4</a></sup>. There are user based CF and item based CF<sup id="fnref:ref5"><a class="footnote-ref" href="#fn:ref5" rel="footnote">5</a></sup> and being applied in the scenario where the number of users is bigger or the number of items is bigger respectively. R. Rather, K. Bradley and B. Smyth<sup id="fnref:ref6"><a class="footnote-ref" href="#fn:ref6" rel="footnote">6</a></sup> had proposed two approaches in CASPER system. One method is based on the user based CF; it recommends target users the jobs which their similar users like. The measurement of similarity is based on the ratings of users to jobs. For the similar users, they calculate the similarity of user ability and job requirement and rank the jobs according to it. CASPER gives recommendation according to the ranking. Calculating the similarity of users and jobs to evaluate the compatibility of users and jobs; it fulfills the compatibility but without considering the users’ preference. W. Hong et al. clustered the users into three clusters according to their information and take three different recommendation policies<sup id="fnref:ref7"><a class="footnote-ref" href="#fn:ref7" rel="footnote">7</a></sup>. One of the method is based on user based CF.
+Content based recommendation<sup id="fnref:ref8"><a class="footnote-ref" href="#fn:ref8" rel="footnote">8</a></sup>. Its main idea is to calculate the jobs which are similar to the jobs having been interacting with users according to the users’ interacting record and then recommend them to the users. The measurement of its similarity is based on the content of the job itself which has many types i.e. the texts. CASPER<sup id="fnref:ref6"><a class="footnote-ref" href="#fn:ref6" rel="footnote">6</a></sup>, the iHR of W. Hong<sup id="fnref:ref7"><a class="footnote-ref" href="#fn:ref7" rel="footnote">7</a></sup> et al., and the PROACTIVE of Lee<sup id="fnref:ref9"><a class="footnote-ref" href="#fn:ref9" rel="footnote">9</a></sup>. Since it has considered the properties of the jobs and the interacting records of users, the content based recommendation has a better performance than CF.
+<br/>
+<br/></p>
+<h4>2.3 Job Recommendation Based on Time Factors and Grandient Boosting Regression Trees(GBRT)</h4>
+<p>Our model includes four main parts, the feature extraction, the chosen of alternative set, the training and prediction of GBRT  model and the TopN recommendation generated by the weight of time factor. The model is shown in the Fig. 1.
+<center><img alt="Fig. 1" src="/image/T-GBRT.png" /></center></p>
+<h5>2.3.1 Time Factor Based Feature</h5>
+<p>The future interaction will be influenced by the past behavior online. Taking online shopping as example, if the user bought item A and liked A, the user will show his/her preference to B when the user buys item B which is similar to A after a month. It could be seemed as the influence from A to B. We need to consider the attenuation effect and aggregation effect when we describe the feature. 
+The attenuation effect means that the interaction which is longer to now has less influence on the present. If the influence is represented by function F, F is smaller while the time duration is larger.
+The aggregation effect means the jobs having been interacted with the user all have influence on the further interaction. We need to accumulate the influence of all the interacted jobs when we quantify the aggregation effect.
+The time factor based feature is defined as</p>
+<div class="math">$$ feature_{time\_factor}(u, i) = \sum_{\Delta t}F(\Delta t)(\sum_t G(w_{i, j}, r_{u, j}))\quad\quad(1) $$</div>
+<p>u means the specific user, i means the jobs having interacted with user u. wi, jmeans the similarity between job i and job j, ru,i means the rating of user u to job i. ∆t means the time duration from the time when user u has interaction with job i to now. F(∆t) represents the time attenuation effect and it decreases as the ∆t increases. G(wi,j, ru,i) represents the influence from once interaction between user u and job i to user u and job i without consideration of time factor1
+The user u has no direct relation to job j but they are both related to the job i. The relation between user u and job i is the rating ru,I and wi,j connects job j with job i. The job i is the bridge between user u and job j. Their relationship can be shown as Fig. 2.
+<center><img alt="Fig. 2" src="/image/relation.png" /></center></p>
+<p>For (1), a simple definition </p>
+<div class="math">$$feature_{time\_factor}(u, i) = \sum_{\Delta t}(\frac{1}{\Delta t+1})(\sum_i w_{i, j} \times r_{u, j}) \quad\quad(2)$$</div>
+<p>which fulfill the requirement of (1). 
+<br/></p>
+<h5>2.3.2 Filtering the Set of Awaiting Recommended Jobs</h5>
+<p>In online job hunting website, there are millions of jobs to choose and they have been updating every day. If we predict the preference of each user to every jobs directly, the amount of calculation will very large. To reduce the amount of calculation, we propose a filtering method which based on neighbor domain to reduce the set of awaiting recommended jobs to a reasonable scale. We collect the job A which has been interacted with user from a user’s behavior log and represent it as a vector A=(a1, a2, …, an). Then we choose the awaiting recommended jobs from the awaiting set and represent them as vector B=(b1, b2, …, bn). The similarity of AB is</p>
+<div class="math">$$Similarity_{A, B} = \frac{A\times B}{\parallel A\parallel\times \parallel B\parallel} = \frac{\sum_{i=1}^{n}(a_i\times b_i)}{\sqrt{\sum^{n}_{i=1}a^2}\times \sqrt{\sum^{n}_{i=1}b^2}} \quad (3)$$</div>
+<p>Ranking the positions in the descending sequence, we take the top K jobs as the new awaiting set. This method will be validated in the experiment part.</p>
+<h5>2.3.3 Time factor based filtering</h5>
+<p>We multiply the marks and time factor as the final result. Ranking the final results in descending order, we recommend the top K jobs to the job hunters.
+<br/>
+<br/></p>
+<h4>2.4 Experiment</h4>
+<h5>2.4.1 Data and Tools</h5>
+<p>The data in the experiment are from the 2016 ACM Conference on Recommender Systems challenge<sup id="fnref:ref10"><a class="footnote-ref" href="#fn:ref10" rel="footnote">10</a></sup>. The data are provided from the sponsor www.xing.com which is a job hunting website. The data has four main parts<sup id="fnref:ref11"><a class="footnote-ref" href="#fn:ref11" rel="footnote">11</a></sup>, the recommendation generated by the website users themselves (impression.csv), the user information (users.csv), the job information (items.csv) and the user behavior log (interactions.csv).
+The tools used in the experiment is provided by Graphlab, which is a parallel scientific computation tool. Here, we use the official implementation of the GBRT algorithm by Graphlab; IBCF, UBCF and CBR is implemented by the Graphlab package.
+<br/></p>
+<h5>2.4.2 Evaluation Method</h5>
+<p>The testing method refers to the testing method of 2016 ACM Conference on Recommender Systems challenge. We calculate the marks based on the scoring function score(S, T).</p>
+<div class="highlight"><pre><span></span><span class="c1">//main scoring function: </span>
+<span class="n">function</span> <span class="nf">score</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="n">foreach</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="n">in</span> <span class="nl">T</span><span class="p">:</span> <span class="c1">//t = set of relevant items for user u</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">S</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="c1">//r = ordered list of recommended items for user u</span>
+    <span class="n">score</span> <span class="o">+=</span>   <span class="mi">20</span> <span class="o">*</span> <span class="p">(</span><span class="n">precisionAtK</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">precisionAtK</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">recall</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">userSuccess</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span> 
+             <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">precisionAtK</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">precisionAtK</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">score</span>
+<span class="p">}</span>
+
+<span class="c1">//precision within the first top k items: </span>
+<span class="n">function</span> <span class="nf">precisionAtK</span><span class="p">(</span><span class="n">recommendedItems</span><span class="p">,</span> <span class="n">relevantItem</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">topK</span> <span class="o">=</span> <span class="n">recommendedItems</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="c1">//takes first k items from the list of reccommendedItems</span>
+  <span class="k">return</span> <span class="n">intersect</span><span class="p">(</span><span class="n">topK</span><span class="p">,</span> <span class="n">relevantItems</span><span class="p">).</span><span class="n">size</span> <span class="o">/</span> <span class="n">k</span>
+<span class="p">}</span>
+
+<span class="c1">//recall = fraction of relevant, retrieved items (30 items </span>
+<span class="c1">//are allowed to be submitted at maximum per user): </span>
+<span class="n">function</span> <span class="nf">recall</span><span class="p">(</span><span class="n">recommendedItems</span><span class="p">,</span> <span class="n">relevantItem</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">relevantItems</span><span class="p">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">intersect</span><span class="p">(</span><span class="n">recommendedItems</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">relevantItems</span><span class="p">).</span><span class="n">size</span> <span class="o">/</span> <span class="n">relevantItems</span><span class="p">.</span><span class="n">size</span>
+  <span class="k">else</span> 
+    <span class="k">return</span> <span class="mf">0.0</span>
+<span class="p">}</span>
+
+<span class="c1">//user success = was at least one relevant item recommended for a given user?</span>
+<span class="n">function</span> <span class="nf">userSuccess</span><span class="p">(</span><span class="n">recommendedItems</span><span class="p">,</span> <span class="n">relevantItem</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">intersect</span><span class="p">(</span><span class="n">recommendedItems</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">relevantItems</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="mf">1.0</span>
+  <span class="k">else</span> 
+    <span class="mf">0.0</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Additional remarks:</p>
+<ul>
+<li>intersect(r, t) returns the intersection between the (top k) list of recommended items r and the set of relevant items t.</li>
+<li>intersect(r, t).size returns the size of the intersection.</li>
+<li>For each user, one can thus - at maximum - earn 100 points (given that there exist 20 relevant items for the user).</li>
+</ul>
+<h5>2.4.3 Feature Selection</h5>
+<p><table class="table table-bordered table-striped table-condensed">
+   <tr>
+      <td>Feature Name</td>
+      <td>Description</td>
+      <td>Remarks</td>
+   </tr>
+   <tr>
+      <td>user_num_weeks</td>
+      <td>User’s the number of weeks on the platform</td>
+      <td>User Feature(common feature)</td>
+   </tr>
+   <tr>
+      <td>user_num_act</td>
+      <td>User’s The number of active interaction</td>
+      <td>User Feature(common feature)</td>
+   </tr>
+   <tr>
+      <td>user_num_neg</td>
+      <td>The number of negative interaction</td>
+      <td>User Feature(common feature)</td>
+   </tr>
+   <tr>
+      <td>user_num_last_rec</td>
+      <td>The times of prediction on the job last week</td>
+      <td>User Feature(special feature)</td>
+   </tr>
+   <tr>
+      <td>user_num_past_rec</td>
+      <td>The times of prediction on the job last week in the past</td>
+      <td>User Feature(special feature)</td>
+   </tr>
+   <tr>
+      <td>user_is_neg</td>
+      <td>Whether negative interaction occurred between the job and the user</td>
+      <td>User Feature(special feature)</td>
+   </tr>
+   <tr>
+      <td>user_num_item_past</td>
+      <td>The times of interaction between the user and the job</td>
+      <td>User Feature(special feature)</td>
+   </tr>
+   <tr>
+      <td>user_category</td>
+      <td>The category of the user</td>
+      <td>User Feature</td>
+   </tr>
+   <tr>
+      <td>item_num_act</td>
+      <td>The number of active interaction of the job</td>
+      <td>Job Feature</td>
+   </tr>
+   <tr>
+      <td>item_num_neg</td>
+      <td>The number of negative interaction of the job</td>
+      <td>Job Feature</td>
+   </tr>
+   <tr>
+      <td>item_num_user_act</td>
+      <td>The number of users who have interacted actively with the job</td>
+      <td>Job Feature</td>
+   </tr>
+   <tr>
+      <td>item_num_user_neg</td>
+      <td>The number of users who have interacted negatively with the job</td>
+      <td>Job Feature</td>
+   </tr>
+   <tr>
+      <td>item_category</td>
+      <td>The category of the item</td>
+      <td>Job Feature</td>
+   </tr>
+   <tr>
+      <td>past_time_weight</td>
+      <td>The past effect of interaction on the job</td>
+      <td>Time Factor Based Feature</td>
+   </tr>
+   <tr>
+      <td>last_time_weight</td>
+      <td>The last-week effect of interaction on the job</td>
+      <td>Time Factor Based Feature</td>
+   </tr>
+   <tr>
+      <td>week</td>
+      <td>time</td>
+      <td>Time Feature</td>
+   </tr>
+   <tr>
+      <td>user_item_similarity</td>
+      <td>The similarity between the user and the item</td>
+      <td></td>
+   </tr>
+</table></p>
+<h5>2.4.4 Results and Analysis</h5>
+<p>Fig. 3.(a) illustrates the total score of the four model respectively, according to the evaluation method above. (b) gives the precision of four models at the first 2, the first 4, the first 6 and the first 20, respectively. (c) gives the number of success recommendation of four models. (d) gives the recall of four models. (a)~(d) correspond to the numerical values in the TABLE IX. , respectively.
+<center><img alt="Fig. 3" src="/image/result.png" /></center>
+<table class="table table-bordered table-striped table-condensed">
+   <tr>
+      <td></td>
+      <td>UCBF</td>
+      <td>ICBF</td>
+      <td>CBR</td>
+      <td>T-GBRT</td>
+   </tr>
+   <tr>
+      <td>Total Score</td>
+      <td>551550</td>
+      <td>569480</td>
+      <td>728880</td>
+      <td>888730</td>
+   </tr>
+   <tr>
+      <td>Precision_At2</td>
+      <td>8.7‰</td>
+      <td>19.79‰</td>
+      <td>21.96‰</td>
+      <td>29.99‰</td>
+   </tr>
+   <tr>
+      <td>Precision_At4</td>
+      <td>12.40‰</td>
+      <td>20.42‰</td>
+      <td>23.11‰</td>
+      <td>29.42‰</td>
+   </tr>
+   <tr>
+      <td>Precision_At6</td>
+      <td>15.84‰</td>
+      <td>22.25‰</td>
+      <td>25.43‰</td>
+      <td>32.33‰</td>
+   </tr>
+   <tr>
+      <td>Precision_At20</td>
+      <td>26.49‰</td>
+      <td>28.54‰</td>
+      <td>34.28‰</td>
+      <td>40.70‰</td>
+   </tr>
+   <tr>
+      <td>userSuccess</td>
+      <td>17941</td>
+      <td>15451</td>
+      <td>21257</td>
+      <td>25696</td>
+   </tr>
+   <tr>
+      <td>Recall</td>
+      <td>29.69‰</td>
+      <td>31.73‰</td>
+      <td>38.59‰</td>
+      <td>44.15‰</td>
+   </tr>
+</table></p>
+<p>From the comparison above, we could get that the T-GBRT is better than other three models in total score, precision, recall rate and hit numbers. For the precision, the improvement of TopN at the first half part and last half part is quite a lot and it shows that our model could optimize the user experience. UBCF and IBCF only consider the interaction between users and items but not the influence of content and time. CBR add the content but not the time factor. Our T-GBRT model integrate the interaction history, neighbor, time and performs better in each criterion.
+<br/>
+<br/></p>
+<h3>3. Model for Detecting Attacks</h3>
+<p><br/>
+<br/>
+<br/>
+<strong>REFERENCE</strong></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:ref1">
+<p>M. J. Eppler and J. Mengis, “The Concept of Information Overload - A Review of Literature from Organization Science, Accounting, Marketing, MIS, and Related Disciplines.,” Inf. Soc., vol. 20, no. 5, pp. 325–344, 2004.&#160;<a class="footnote-backref" href="#fnref:ref1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref2">
+<p>D. H. Park, H. K. Kim, Il Young Choi, and J. K. Kim, “A literature review and classification of recommender systems research.,” Expert Syst. Appl., vol. 39, no. 11, pp. 10059–10072, 2012..&#160;<a class="footnote-backref" href="#fnref:ref2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref3">
+<p>A. Gupta and D. G. 0002, “Applying data mining techniques in job recommender system for considering candidate job preferences.,” ICACCI, pp. 1458–1465, 2014.&#160;<a class="footnote-backref" href="#fnref:ref3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref4">
+<p>P. Resnick, N. Iacovou, M. Suchak, P. Bergstrom, and J. Riedl, “GroupLens - An Open Architecture for Collaborative Filtering of Netnews.,” CSCW, pp. 175–186, 1994.&#160;<a class="footnote-backref" href="#fnref:ref4" rev="footnote" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref5">
+<p>B. M. Sarwar, G. Karypis, J. A. Konstan, and J. Riedl, “Item-based collaborative filtering recommendation algorithms.,” WWW, pp. 285–295, 2001.&#160;<a class="footnote-backref" href="#fnref:ref5" rev="footnote" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref6">
+<p>R. Rafter, K. Bradley, and B. Smyth, “Personalised retrieval for online recruitment services,” In Proceedings of the 22nd Annual Colloquium on Information Retrieval, 2000.&#160;<a class="footnote-backref" href="#fnref:ref6" rev="footnote" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref7">
+<p>W. Hong, S. Zheng, H. Wang, and J. Shi, “A Job Recommender System Based on User Clustering.,” JCP, vol. 8, no. 8, 2013.&#160;<a class="footnote-backref" href="#fnref:ref7" rev="footnote" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref8">
+<p>M. J. Pazzani and D. Billsus, “Content-Based Recommendation Systems.,” The Adaptive Web, vol. 4321, no. 10, pp. 325–341, 2007.&#160;<a class="footnote-backref" href="#fnref:ref8" rev="footnote" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref9">
+<p>D. H. Lee and P. Brusilovsky, “Fighting Information Overflow with Personalized Comprehensive Information Access: A Proactive Job Recommender,” presented at the Third International Conference on Autonomic and Autonomous Systems (ICAS'07), 2007, pp. 21–21.&#160;<a class="footnote-backref" href="#fnref:ref9" rev="footnote" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref10">
+<p><a href="https://github.com/recsyschallenge/2016">https://github.com/recsyschallenge/2016</a> .&#160;<a class="footnote-backref" href="#fnref:ref10" rev="footnote" title="Jump back to footnote 10 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ref11">
+<p><a href="https://github.com/recsyschallenge/2016/blob/master/TrainingDataset.md">https://github.com/recsyschallenge/2016/blob/master/TrainingDataset.md</a> .&#160;<a class="footnote-backref" href="#fnref:ref11" rev="footnote" title="Jump back to footnote 11 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'pengyangwangcom'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'create-blog';
+                var disqus_url = '/pages/2016/09/25/create-blog/';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2016 Pengyang Wang
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'pengyangwangcom'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+
+</body>
+</html>

@@ -211,6 +211,67 @@ figure.floatcenter, .align-center {
 #banner .btn, #banner .intro {
     margin-left: 4px;
 }
+.container-temp #sidebar {
+    display: none;
+}
+.wsite-multicol-table {
+    margin: 0 auto;
+}
+p {
+    font-size: 15.5px;
+}
+.footnote p {
+    font-size: 14px;
+}
+table {
+    font-size: 15.5px;
+}
+ul {
+    font-size: 15.5px;
+}
+.wsite-multicol-col h2 {
+    font-size: 39px;
+}
+a.vcardButton {
+    margin-left: 0px;
+    background: #558e6a;
+    border: 1px solid #558e6a;
+    width: auto;
+    padding: 8px 15px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size: 14px;
+    color: #ffffff;
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+.wsite-multicol-table-wrap a:visited {
+    color: #558e6a;
+}
+.wsite-multicol-table-wrap a:link {
+    color: #558e6a;
+}
+a, a:active, a:hover {
+    outline: none;
+}
+a.vcardButton:hover {
+    background: #777777;
+    border: 1px solid #777777;
+    background-image: url(../images/bg-button.png);
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -o-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Solutions for mobile and small screens  */
 @media (max-width: 650px) {
