@@ -77,7 +77,6 @@ body {
 a, a:hover {
     color: inherit;
 }
-
 .entry-content a {
     text-decoration: none;
     border-bottom: 1px dotted;
@@ -237,7 +236,7 @@ a.vcardButton {
     background: #558e6a;
     border: 1px solid #558e6a;
     width: auto;
-    padding: 8px 15px;
+    padding: 4px 10px;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -o-border-radius: 3px;
@@ -272,7 +271,22 @@ a.vcardButton:hover {
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-
+.item{
+    display: inline-block;
+    float: left;
+    clear: right;
+    width: 70%;
+}
+.time{
+    display: inline-block;
+    float: left;
+    margin-left: 2%;
+}
+.section p{
+    float: left;
+    width: 100%;
+    clear: both;
+}
 /* Solutions for mobile and small screens  */
 @media (max-width: 650px) {
     #banner h1{
