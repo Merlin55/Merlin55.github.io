@@ -13,13 +13,13 @@
 
         <meta name="author" content="Pengyang Wang" />
         <meta name="keywords" content="Bigdata,Challenge,Data Mining,Analytics" />
-        <meta name="description" content="Shiting Xv and I participated in the competition as a team. My work mainly included data transforming, model design, algorithm implement. The competition was suported by Alibaba Group and BUPT Data Mining Alliance. In the end, Our result ranked at 14 of 200+. Task The challenge required players to classify ..." />
+        <meta name="description" content="Shiting Xv and I participated in the competition as a team. My work mainly included data transforming, model design, algorithm implement. The competition was suported by Alibaba Group and BUPT ..." />
 
         <meta property="og:site_name" content="Pengyang Wang's Homepage" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="User Classification Challenge on Shopping"/>
         <meta property="og:url" content="/pages/2015/12/28/create-blog/"/>
-        <meta property="og:description" content="Shiting Xv and I participated in the competition as a team. My work mainly included data transforming, model design, algorithm implement. The competition was suported by Alibaba Group and BUPT Data Mining Alliance. In the end, Our result ranked at 14 of 200+. Task The challenge required players to classify ..."/>
+        <meta property="og:description" content="Shiting Xv and I participated in the competition as a team. My work mainly included data transforming, model design, algorithm implement. The competition was suported by Alibaba Group and BUPT ..."/>
         <meta property="article:published_time" content="2015-12-28" />
             <meta property="article:section" content="Bigdata Challenge" />
             <meta property="article:tag" content="Bigdata" />
@@ -57,9 +57,6 @@ Pengyang Wang's Homepage            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/algorithm.html">Algorithm</a>
-                        </li>
                         <li class="active">
                             <a href="/category/bigdata-challenge.html">Bigdata challenge</a>
                         </li>
@@ -112,7 +109,6 @@ Pengyang Wang's Homepage            </a>
         /
 	<a href="/tag/analytics.html">Analytics</a>
     <span class="label label-default">Lang</span>
-	<a href="/pages/2016/05/09/create-blog/">en</a>
 	<a href="/pages/2015/10/12/create-blog/">en</a>
 	<a href="/pages/2016/09/25/create-blog/">en</a>
 	<a href="/pages/2014/04/12/create-blog/">en</a>
@@ -184,13 +180,12 @@ Pengyang Wang's Homepage            </a>
 <h3>Our Solution</h3>
 <h4>1. Analysis</h4>
 <p>When we looked through the data set, we found a pattern behind the it that the distrbution of actions varied by the time. For example, on the Double Eleven(like Black Friday in the U.S.), people used the online shopping site much more frequent than anytime else because almost all prodcts were on sale on that day. Also, people bought and check the website more on holidays than they did on week days, possibly because people had more time to spend on online shopping than other time. The distribution of actions in the data set are list below.
-【图】 
-From the graph above, we can see that...</p>
+<center><img alt="statistics_user_classify" src="/image/statistics_user_classify.png" /></center>
+From the graph above, we can see that at the beginning of the time, the number of actions is nearly zero. In the middle, the number of actions is relatively stable and basically small. However, at the end, the number increases sharply to the top.</p>
 <h4>2. Model Design</h4>
 <h5>2.1 Spliting the Data Set by Time Window</h5>
-<p>Due to the pattern I just have discussed above, I descided to split the data set into small pieces. Here, based on time, the denser the data set was, the smaller the data set was splited into, vice versa.
-【图】</p>
-<p>In the end, the data set was splited into 8 parts.</p>
+<p>Due to the pattern I just have discussed above, I descided to split the data set into small pieces. Here, based on time, the denser the data set was, the smaller the data set was splited into, vice versa.</p>
+<p>In the end, the data set was splited into 7 parts.</p>
 <h5>2.2 Clustering on Items</h5>
 <p>The task is to classify users and action records are pointed at items from users. So, I moved on items. The details of items in data set are cat_id, seller_id and brand_id which represent the category id of ihe item, seller id of the item and the brand id of the item respectively. To make the role of items more clear, I clustered items in 14 categories. Here are process</p>
 <ul>
@@ -212,6 +207,9 @@ Finally, I put all 15 dimensions vectors from all time windows in a vector.
 <center><img alt="vector_final_compet" src="/image/vector_final_compet.png" /></center></p>
 <h5>2.4 Training Model</h5>
 <p>We applied descision trees and Adaboosting algorithm to train the data. Here, we totally used 5 descision trees. The precision rate was 34% and the result ranked at 14. </p>
+<blockquote>
+<p>All the code of the model and algorithm can be found <a href="https://github.com/oceansea1911/ali_competition"><strong>HERE</strong></a>.</p>
+</blockquote>
             </div>
             <!-- /.entry-content -->
     <hr/>

@@ -13,13 +13,13 @@
 
         <meta name="author" content="Pengyang Wang" />
         <meta name="keywords" content="Bigdata,Challenge,Data Mining,Analytics" />
-        <meta name="description" content="Shiting Xv, Guodong Zhang and I participated in the competition as a team and I was the leader of the team. My work mainly included data cleaning, data transform and model design. At the end, our result ranked at 145 of 2100. Here is the certificate awarded by Tianchi Bigdata ..." />
+        <meta name="description" content="Shiting Xv, Guodong Zhang and I participated in the competition as a team and I was the leader of the team. My work mainly included data cleaning, data transform and ..." />
 
         <meta property="og:site_name" content="Pengyang Wang's Homepage" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Clothes Matching Challenge on Taobao.com"/>
         <meta property="og:url" content="/pages/2015/10/12/create-blog/"/>
-        <meta property="og:description" content="Shiting Xv, Guodong Zhang and I participated in the competition as a team and I was the leader of the team. My work mainly included data cleaning, data transform and model design. At the end, our result ranked at 145 of 2100. Here is the certificate awarded by Tianchi Bigdata ..."/>
+        <meta property="og:description" content="Shiting Xv, Guodong Zhang and I participated in the competition as a team and I was the leader of the team. My work mainly included data cleaning, data transform and ..."/>
         <meta property="article:published_time" content="2015-10-12" />
             <meta property="article:section" content="Bigdata Challenge" />
             <meta property="article:tag" content="Bigdata" />
@@ -57,9 +57,6 @@ Pengyang Wang's Homepage            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                        <li >
-                            <a href="/category/algorithm.html">Algorithm</a>
-                        </li>
                         <li class="active">
                             <a href="/category/bigdata-challenge.html">Bigdata challenge</a>
                         </li>
@@ -112,7 +109,6 @@ Pengyang Wang's Homepage            </a>
         /
 	<a href="/tag/analytics.html">Analytics</a>
     <span class="label label-default">Lang</span>
-	<a href="/pages/2016/05/09/create-blog/">en</a>
 	<a href="/pages/2016/09/25/create-blog/">en</a>
 	<a href="/pages/2014/04/12/create-blog/">en</a>
 	<a href="/pages/2016/02/05/create-blog/">en</a>
@@ -239,6 +235,15 @@ where n is the number of items. P(k) is the precision at cut-off k in the item l
 where, I is the number of items to be predicted. The value of map@200 is between 0 and 1. 1 is the most ideal situation.</p>
 </blockquote>
 <h3>Our solution</h3>
+<p>The whole structure of our model is listed below:
+<center><img alt="taobao_match_compet" src="/image/taobao_match_compet.png" /></center></p>
+<h4>1. TF-IDF</h4>
+<p>Transform items which are to be matched and all other items provided into TF-IDF form, based on terms and categories.</p>
+<h4>2. Similarities based on Locality-Sensitive Hashing</h4>
+<p>Calculate similarities between items which are to be matched and all other items provided with Locality-Sensitive Hashing algorithm.
+Since there are millions of items, it is very costly to calculate similarities directly, no matter on time and memories. So, we decided to do it more efficiently by LSH(Locality-Sensitive Hashing). Locality-sensitive hashing (LSH) reduces the dimensionality of high-dimensional data. LSH hashes input items so that similar items map to the same “buckets” with high probability (the number of buckets being much smaller than the universe of possible input items). LSH differs from conventional and cryptographic hash functions because it aims to maximize the probability of a “collision” for similar items. The details about the LSH algorithm can be found <a href="https://en.wikipedia.org/wiki/Locality-sensitive_hashing"><strong>HERE</strong></a>.</p>
+<h4>3. Generate New Matches</h4>
+<p>We ranked all the similar items based on similarities and found the topK items which have existed in the specialist fashion matches list. Then we gave the matches of these topK items to the items that were to be matched. Finally, after reranking the list by the similarities and ranks in the specialist fashion matches list, the new matches was generated.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
