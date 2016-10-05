@@ -114,6 +114,7 @@ Pengyang Wang's Homepage            </a>
 <p>With the effects of information overloading increasing rapidly, job hunters can not easily search for a desirable job on the  internet. To help people find a job more quickly and efficiently, the project come out by considerable design and research. The project includes job recommendation and the security of the recommender system. Here, T-GBRT Model, which is designed to improve the quality of the recommendation,  has been published as "The Analysis and Design of the Job Model Based on GBRT and Time Factors" at 2016 IEEE International Conference on Knowledge Engineering and Applications, Singapore. Full paper can be found <a href="/pages/2016/09/25/create-blog/files/The Analysis and Design of the Job Recommendation Model Based on GBRT and Time Factors.pdf"><strong>HERE</strong></a>.</p>
 </blockquote>
 <h3>1. Overall Design</h3>
+<p><center><img alt="Fig. 1" src="/image/overall_design_job_rec.png" /></center></p>
 <h3>2. T-GBRT Model</h3>
 <h4>2.1 Introduction</h4>
 <p>As an efficient way to deal with the information overloading problem<sup id="fnref:ref1"><a class="footnote-ref" href="#fn:ref1" rel="footnote">1</a></sup>, the recommender systems have been widely applied into many web applications. The application of recommender systems varies in different scenarios and jobs<sup id="fnref:ref2"><a class="footnote-ref" href="#fn:ref2" rel="footnote">2</a></sup>.  We need to consider whether the ability of job hunters is compatible with the corresponding job at first<sup id="fnref:ref3"><a class="footnote-ref" href="#fn:ref3" rel="footnote">3</a></sup>. After that we focus on the job hunters’ preference. The preference maybe the personalized requirement for working places and environment. So we need to consider both the users’ preference and their ability when designing the recommender systems for online recruitment.
@@ -355,7 +356,7 @@ The tools used in the experiment is provided by Graphlab, which is a parallel sc
 <p>From the comparison above, we could get that the T-GBRT is better than other three models in total score, precision, recall rate and hit numbers. For the precision, the improvement of TopN at the first half part and last half part is quite a lot and it shows that our model could optimize the user experience. UBCF and IBCF only consider the interaction between users and items but not the influence of content and time. CBR add the content but not the time factor. Our T-GBRT model integrate the interaction history, neighbor, time and performs better in each criterion.
 <br/>
 <br/></p>
-<h3>3. Model for Detecting Attacks (To Be Continuing)</h3>
+<h3>3. Model for Detecting Attacks (To Come...)</h3>
 <p><br/>
 <br/>
 <br/>
@@ -457,36 +458,6 @@ The tools used in the experiment is provided by Graphlab, which is a parallel sc
 </script>
             </div>
             <!-- /.entry-content -->
-    <hr/>
-    <section class="comments" id="comments">
-        <h2>Comments</h2>
-
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'pengyangwangcom'; // required: replace example with your forum shortname
-
-                    var disqus_identifier = 'create-blog';
-                var disqus_url = '/pages/2016/09/25/create-blog/';
-
-            var disqus_config = function () {
-                this.language = "en";
-            };
-
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function () {
-                var dsq = document.createElement('script');
-                dsq.type = 'text/javascript';
-                dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
-            Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-    </section>
         </article>
     </section>
 
@@ -513,21 +484,6 @@ The tools used in the experiment is provided by Graphlab, which is a parallel sc
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
 <script src="/theme/js/respond.min.js"></script>
 
-    <!-- Disqus -->
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'pengyangwangcom'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function () {
-            var s = document.createElement('script');
-            s.async = true;
-            s.type = 'text/javascript';
-            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-    </script>
-    <!-- End Disqus Code -->
 
 </body>
 </html>
